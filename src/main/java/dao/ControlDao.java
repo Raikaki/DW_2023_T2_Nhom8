@@ -152,7 +152,7 @@ public class ControlDao {
         // Tạo đối tượng Session với thông tin đăng nhập
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("20130305@st.hcmuaf.edu.vn", "Linh@27092002");
+                return new PasswordAuthentication("20130332@st.hcmuaf.edu.vn", "giangan411@");
             }
         });
         try {
