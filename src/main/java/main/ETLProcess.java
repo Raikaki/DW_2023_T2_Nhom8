@@ -29,6 +29,7 @@ public class ETLProcess {
     private static String Name_warehouse= "";
     private static String tableNameConfig;
     private static String email_error;
+
     static {
         Properties properties = new Properties();
         try (InputStream input = ETLProcess.class.getClassLoader().getResourceAsStream("config.properties")) {
@@ -64,7 +65,7 @@ public class ETLProcess {
 
     static {
         try {
-            id_config = ControlDao.getConfigId(configConnection, "XO SO");
+            id_config = ControlDao.getConfigId(configConnection, tableNameConfig);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -114,7 +115,7 @@ public class ETLProcess {
             configConnection.setAutoCommit(false); // Bắt đầu transaction
             logger.info("ETL process started.");
             insertLog("INFO", "PROCESS START", Thread.currentThread().getName(), "Process start..", null);
-            if (isStatusSuccess(configConnection, "")) {
+            if (isStatusSuccess(configConnection, tableNameConfig)) {
                 try (Connection stagingConnection = DriverManager.getConnection(STAGING_DB_URL, USERNAMESTAGING, PASSWORDSTAGING);
                      Connection dwConnection = DriverManager.getConnection(DW_DB_URL, USERNAMEWAREHOUSE, PASSWORDWAREHOUSE)) {
 
@@ -128,7 +129,7 @@ public class ETLProcess {
                         configConnection.commit(); // Commit transaction nếu mọi thứ thành công
                         updateStatus(configConnection, "fact", "INSERTED");
                         insertLog("ALERT", "PROCESS FINISH", Thread.currentThread().getName(), "Process finish..", null);
-//                        cleanStagingTable();
+                        cleanStagingTable();
                     } else {
                         configConnection.rollback(); // Rollback nếu có lỗi
 
