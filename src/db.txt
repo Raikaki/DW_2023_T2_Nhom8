@@ -1,4 +1,5 @@
 INSERT INTO staging(thu, ngay, tinh, so, giai, khuvuc, date) VALUES (?, STR_TO_DATE(?, '%d/%m/%Y'), ?, ?, ?, ?, CURRENT_TIMESTAMP) ON DUPLICATE KEY UPDATE thu = VALUES(thu), ngay = VALUES(ngay), tinh = VALUES(tinh), so = VALUES(so), giai = VALUES(giai), khuvuc = VALUES(khuvuc), date = CURRENT_TIMESTAMP
 TRUNCATE TABLE staging
-SELECT status FROM status WHERE id = ?
-UPDATE status SET status = ? WHERE id = ?
+SELECT status FROM config WHERE id = ?
+UPDATE config SET status = ? WHERE id = ?
+SELECT location FROM config
